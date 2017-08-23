@@ -230,14 +230,18 @@ class LazyLoad extends Component {
     }
 
     let bindWindowScroll = () => {
-      const { scroll, resize } = this.props;
+      let { scroll, resize, target } = this.props;
+
+      if( 'function' == typeof target ) target = target();
 
       if (scroll) {
         on(window, 'scroll', finalLazyLoadHandler, passiveEvent);
+        target && on(target, 'scroll', finalLazyLoadHandler, passiveEvent);
       }
 
       if (resize) {
         on(window, 'resize', finalLazyLoadHandler, passiveEvent);
+        target && on(target, 'resize', finalLazyLoadHandler, passiveEvent);
       }
     };
 
